@@ -32,7 +32,7 @@
 
       <p class="tagline">I turn ideas into simple, intuitive, and engaging digital experiences that people love to use.</p>
 
-      <img class="headphones" src="assets/hero/headphones.png" alt="" width="410" height="446">
+      <img class="headphones" id="headphones" src="assets/hero/headphones.png" alt="" width="410" height="446">
 
       <div class="exp">
         <span class="exp__tab">Work Experience</span>
@@ -75,8 +75,9 @@
       </div>
 
       <aside class="songs" aria-label="Now playing">
+        <audio id="song" src="assets/audio/song.mp3" preload="none" loop></audio>
         <div class="songs__disc">
-          <img class="songs__vinyl" src="assets/hero/vinyl.png" alt="" width="192" height="193">
+          <button class="songs__btn" type="button" aria-pressed="false" aria-label="Spin the record"><img class="songs__vinyl" src="assets/hero/vinyl.png" alt="" width="192" height="193"></button>
           <span class="pulse" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
         </div>
         <div class="songs__meta">
@@ -84,6 +85,7 @@
           <p class="songs__title">I Really Wanna Stay At Your House</p>
           <p class="songs__artist">Rosa Walton, Hallie Coggins</p>
         </div>
+        <p class="songs__hint" hidden>Click the record to play ♪</p>
       </aside>
 
       <a class="scroll-hint" href="#works" aria-label="Scroll to highlighted works">

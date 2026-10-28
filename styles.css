@@ -443,3 +443,108 @@ a { color: inherit; text-decoration: none; }
   .songs:hover .songs__vinyl { animation: none; }
   .po, .card__img { transition: none; }
 }
+
+/* =========================================================
+   MOTION  (playful)
+   ========================================================= */
+:root { --spring: cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+/* name entrance: letters bounce up one by one */
+.wordmark .l {
+  animation: rise 1s var(--spring) backwards;
+  animation-delay: calc(120ms + var(--i, 0) * 75ms);
+  transition: transform 0.35s var(--spring);
+  transform-origin: 50% 100%;
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(75%) rotate(9deg) scale(0.88); }
+}
+.wordmark .l:hover { transform: translateY(-5%) rotate(-2.5deg) scale(1.03); }
+.wordmark .l:nth-child(1)  { --i: 0; }
+.wordmark .l:nth-child(2)  { --i: 1; }
+.wordmark .l:nth-child(3)  { --i: 2; }
+.wordmark .l:nth-child(4)  { --i: 3; }
+.wordmark .l:nth-child(5)  { --i: 4; }
+.wordmark .l:nth-child(6)  { --i: 6; }  /* extra beat between the two words */
+.wordmark .l:nth-child(7)  { --i: 7; }
+.wordmark .l:nth-child(8)  { --i: 8; }
+.wordmark .l:nth-child(9)  { --i: 9; }
+.wordmark .l:nth-child(10) { --i: 10; }
+.wordmark .l:nth-child(11) { --i: 11; }
+
+/* draggable posters */
+.po {
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+  touch-action: none;
+  transform: translate(var(--dx, 0px), var(--dy, 0px));
+  transition: transform 0.35s var(--spring), box-shadow 0.25s ease;
+}
+.po:nth-child(odd)  { --r: -2.5deg; }
+.po:nth-child(even) { --r: 2.5deg; }
+.po:hover {
+  transform: translate(var(--dx, 0px), var(--dy, 0px)) translateY(-6px) scale(1.06) rotate(var(--r));
+}
+.po.is-dragging {
+  cursor: grabbing;
+  transition: box-shadow 0.2s ease;
+  transform: translate(var(--dx, 0px), var(--dy, 0px)) scale(1.1) rotate(calc(var(--r) * 1.6));
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.3);
+}
+@media (pointer: coarse) { .po { touch-action: pan-y; } }
+
+/* cursor follow (position is driven by script.js through --fx / --fy) */
+.cursor, .pill { translate: var(--fx, 0px) var(--fy, 0px); will-change: translate; }
+
+/* headphones: drop in, then float; mouse parallax goes through transform */
+.headphones {
+  transform: translate(var(--px, 0px), var(--py, 0px)) rotate(var(--pr, 0deg));
+  animation: drop 1s var(--spring) 350ms backwards, float 5s ease-in-out 1.4s infinite;
+}
+@keyframes drop { from { opacity: 0; scale: 0.55; rotate: -16deg; } }
+@keyframes float {
+  0%, 100% { translate: 0 0; rotate: -1.5deg; }
+  50%      { translate: 0 -12px; rotate: 1.5deg; }
+}
+
+/* vinyl: click to spin */
+.songs__btn { display: block; width: 100%; padding: 0; border: 0; background: none; border-radius: 50%; cursor: pointer; }
+.songs__btn:active .songs__vinyl { scale: 0.96; }
+.songs__vinyl { animation: spin 3.5s linear infinite; animation-play-state: paused; transition: scale 0.25s var(--spring); }
+.songs:hover .songs__vinyl, .songs.is-spinning .songs__vinyl { animation: spin 3.5s linear infinite; animation-play-state: running; }
+.songs:not(:hover):not(.is-spinning) .songs__vinyl { animation-play-state: paused; }
+.songs.is-spinning .songs__vinyl { animation-duration: 2.2s; }
+.pulse i { animation-play-state: paused; }
+.songs:hover .pulse i, .songs.is-spinning .pulse i { animation-play-state: running; }
+
+/* button press feel */
+.ib, .btn, .socials a, .chip { transition: transform 0.3s var(--spring), background 0.2s ease, filter 0.2s ease, color 0.2s ease; }
+.ib:hover, .socials a:hover { transform: translateY(-3px) rotate(-3deg); }
+.btn:hover { transform: translateY(-2px); }
+.chip:hover { transform: translateY(-2px); }
+.ib:active, .socials a:active, .btn:active, .chip:active { transform: scale(0.9); }
+.btn img { transition: transform 0.3s var(--spring); }
+.btn:hover img { transform: translateX(4px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .wordmark .l, .headphones { animation: none; }
+  .wordmark .l:hover, .po:hover, .ib:hover, .socials a:hover, .btn:hover, .chip:hover { transform: none; }
+  .po, .po.is-dragging, .ib, .btn, .socials a, .chip, .btn img, .songs__vinyl { transition: none; }
+  .songs__vinyl, .songs:hover .songs__vinyl, .songs.is-spinning .songs__vinyl { animation: none; }
+  .headphones { transform: none; }
+}
+
+/* song hint (shown only if the browser blocks sound until a click) */
+.songs__hint {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 8px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--deep-mocha-200);
+}
+.songs__hint[hidden] { display: none; }
