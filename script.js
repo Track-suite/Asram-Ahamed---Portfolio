@@ -146,30 +146,6 @@
 
   if (!fine) return;
 
-  // Pink "Azrem" cursor follows the mouse over the wall, then drifts home
-  const box = document.querySelector(".wall__box");
-  const cur = box && box.querySelector(".cursor");
-  if (box && cur) {
-    let tx = 0, ty = 0, x = 0, y = 0, raf = null;
-    const tick = () => {
-      x += (tx - x) * 0.12;
-      y += (ty - y) * 0.12;
-      box.style.setProperty("--fx", x.toFixed(2) + "px");
-      box.style.setProperty("--fy", y.toFixed(2) + "px");
-      raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.1 ? requestAnimationFrame(tick) : null;
-    };
-    const go = () => { if (!raf) raf = requestAnimationFrame(tick); };
-    box.addEventListener("pointermove", (e) => {
-      const r = box.getBoundingClientRect();
-      const homeX = r.left + r.width * 0.12857 + cur.offsetWidth / 2;
-      const homeY = r.top + r.height * 0.71333 + cur.offsetHeight / 2;
-      tx = e.clientX - homeX;
-      ty = e.clientY - homeY;
-      go();
-    });
-    box.addEventListener("pointerleave", () => { tx = 0; ty = 0; go(); });
-  }
-
   // Headphones react to the mouse (parallax + tilt)
   const hero = document.querySelector(".hero");
   const hp = document.getElementById("headphones");

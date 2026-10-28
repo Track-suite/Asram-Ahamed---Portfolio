@@ -494,8 +494,15 @@ a { color: inherit; text-decoration: none; }
 }
 @media (pointer: coarse) { .po { touch-action: pan-y; } }
 
-/* cursor follow (position is driven by script.js through --fx / --fy) */
-.cursor, .pill { translate: var(--fx, 0px) var(--fy, 0px); will-change: translate; }
+/* Azrem cursor + pill: float gently in place */
+.cursor, .pill { animation: hover-float 4.5s ease-in-out infinite; }
+.pill { animation-delay: -0.35s; }
+@keyframes hover-float {
+  0%, 100% { translate: 0 0; }
+  25%      { translate: 6px -7px; }
+  50%      { translate: 11px 2px; }
+  75%      { translate: 3px 8px; }
+}
 
 /* headphones: drop in, then float; mouse parallax goes through transform */
 .headphones {
@@ -528,7 +535,7 @@ a { color: inherit; text-decoration: none; }
 .btn:hover img { transform: translateX(4px); }
 
 @media (prefers-reduced-motion: reduce) {
-  .wordmark .l, .headphones { animation: none; }
+  .wordmark .l, .headphones, .cursor, .pill { animation: none; }
   .wordmark .l:hover, .po:hover, .ib:hover, .socials a:hover, .btn:hover, .chip:hover { transform: none; }
   .po, .po.is-dragging, .ib, .btn, .socials a, .chip, .btn img, .songs__vinyl { transition: none; }
   .songs__vinyl, .songs:hover .songs__vinyl, .songs.is-spinning .songs__vinyl { animation: none; }
