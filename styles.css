@@ -556,3 +556,12 @@ a { color: inherit; text-decoration: none; }
   color: var(--deep-mocha-200);
 }
 .songs__hint[hidden] { display: none; }
+
+/* Social icon hover (Figma "Social" component, Hover variant):
+   background Deep Mocha D400 #261f1c, icon colour #71bdff */
+.socials a:hover,
+.socials a:focus-visible { background: var(--deep-mocha-400); }
+.socials a:hover img,
+.socials a:focus-visible img {
+  filter: brightness(0) saturate(100%) invert(51%) sepia(48%) saturate(505%) hue-rotate(174deg) brightness(123%) contrast(106%);
+}
