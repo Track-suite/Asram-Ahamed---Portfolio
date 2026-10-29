@@ -268,3 +268,86 @@
   window.addEventListener("scroll", hide, { passive: true });
   window.addEventListener("resize", hide);
 })();
+
+// ---------- Other works: FIFA video + Into the Portal slider ----------
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Video plays only while it's on screen (muted loop). With reduced motion it waits for the visitor.
+  const video = document.getElementById("fifa-video");
+  if (video) {
+    if (reduce) {
+      video.controls = true;
+    } else if ("IntersectionObserver" in window) {
+      new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) video.play().catch(() => {});
+          else video.pause();
+        });
+      }, { threshold: 0.35 }).observe(video);
+    } else {
+      video.autoplay = true;
+    }
+  }
+
+  // Slider: auto-advances, pauses on hover/focus/hidden tab, arrows + dots + swipe.
+  const slider = document.getElementById("portal-slider");
+  if (!slider) return;
+  const track = slider.querySelector(".slider__track");
+  const slides = [...slider.querySelectorAll(".slide")];
+  const dots = [...slider.querySelectorAll(".slider__dots button")];
+  const n = slides.length;
+  let i = 0;
+  let timer = 0;
+  let inView = true;
+  let held = false;
+
+  const go = (k) => {
+    i = (k + n) % n;
+    track.style.transform = "translateX(" + -i * 100 + "%)";
+    slides.forEach((s, idx) => s.setAttribute("aria-hidden", String(idx !== i)));
+    dots.forEach((d, idx) => {
+      d.classList.toggle("is-active", idx === i);
+      if (idx === i) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current");
+    });
+  };
+  const stop = () => { clearInterval(timer); timer = 0; };
+  const start = () => {
+    stop();
+    if (reduce || held || !inView || document.hidden) return;
+    timer = setInterval(() => go(i + 1), 4500);
+  };
+
+  slider.querySelector(".slider__btn--prev").addEventListener("click", () => { go(i - 1); start(); });
+  slider.querySelector(".slider__btn--next").addEventListener("click", () => { go(i + 1); start(); });
+  dots.forEach((d, idx) => d.addEventListener("click", () => { go(idx); start(); }));
+
+  slider.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") { held = true; stop(); } });
+  slider.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") { held = false; start(); } });
+  slider.addEventListener("focusin", () => { held = true; stop(); });
+  slider.addEventListener("focusout", () => { held = false; start(); });
+  slider.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") { go(i - 1); start(); }
+    if (e.key === "ArrowRight") { go(i + 1); start(); }
+  });
+  document.addEventListener("visibilitychange", start);
+
+  // swipe
+  let sx = null;
+  slider.addEventListener("pointerdown", (e) => { if (e.target.closest("button")) return; sx = e.clientX; });
+  let swiped = false;
+  slider.addEventListener("pointerup", (e) => {
+    if (sx === null) return;
+    const dx = e.clientX - sx;
+    sx = null;
+    if (Math.abs(dx) > 40) { swiped = true; setTimeout(() => { swiped = false; }, 0); go(i + (dx < 0 ? 1 : -1)); start(); }
+  });
+  // a swipe shouldn't also open the project link
+  slider.addEventListener("click", (e) => { if (swiped) { e.preventDefault(); swiped = false; } }, true);
+  slider.addEventListener("pointercancel", () => { sx = null; });
+
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver((entries) => { inView = entries[0].isIntersecting; start(); }, { threshold: 0.3 }).observe(slider);
+  }
+  start();
+})();
