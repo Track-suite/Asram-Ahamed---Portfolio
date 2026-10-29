@@ -290,7 +290,7 @@
     }
   }
 
-  // Slider: images swap instantly every ~2s, pauses on hover/focus/hidden tab; swipe or arrow keys also work.
+  // Slider: the two renders cross-fade in place every ~3s, pauses on hover/focus/hidden tab; swipe or arrow keys also work.
   const slider = document.getElementById("portal-slider");
   if (!slider) return;
   const track = slider.querySelector(".slider__track");
@@ -303,14 +303,16 @@
 
   const go = (k) => {
     i = (k + n) % n;
-    track.style.transform = "translateX(" + -i * 100 + "%)";
-    slides.forEach((s, idx) => s.setAttribute("aria-hidden", String(idx !== i)));
+    slides.forEach((s, idx) => {
+      s.classList.toggle("is-active", idx === i);
+      s.setAttribute("aria-hidden", String(idx !== i));
+    });
   };
   const stop = () => { clearInterval(timer); timer = 0; };
   const start = () => {
     stop();
     if (reduce || held || !inView || document.hidden) return;
-    timer = setInterval(() => go(i + 1), 2200);
+    timer = setInterval(() => go(i + 1), 2800);
   };
 
 

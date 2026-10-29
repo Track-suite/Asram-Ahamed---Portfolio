@@ -383,8 +383,10 @@ a { color: inherit; text-decoration: none; }
 
 /* Slider (Into the Portal) */
 .slider { position: relative; height: 595px; overflow: hidden; border-radius: 8px; background: #474747; touch-action: pan-y; }
-.slider__track { display: flex; height: 100%; } /* images swap instantly, in place */
-.slide { flex: none; width: 100%; height: 100%; margin: 0; }
+.slider__track { position: relative; height: 100%; }
+/* Both renders share one framing, so a soft cross-fade reads as the scene re-lighting itself in place */
+.slide { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity 0.9s ease-in-out; }
+.slide.is-active { opacity: 1; }
 .slide img { display: block; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
 @media (max-width: 1199px) {
   .works { min-height: 0; }
@@ -768,3 +770,5 @@ a.work__media:hover, .card__link:hover { transform: translateY(-4px); box-shadow
 .card__text h3 a:hover, .work__text h3 a:hover, .card__text h3 a:focus-visible, .work__text h3 a:focus-visible { background-size: 100% 1.5px; }
 .slide a { display: block; width: 100%; height: 100%; -webkit-user-drag: none; user-select: none; }
 @media (prefers-reduced-motion: reduce) { a.work__media, .card__link { transition: none; } a.work__media:hover, .card__link:hover { transform: none; } }
+
+@media (prefers-reduced-motion: reduce) { .slide { transition: none; } }
