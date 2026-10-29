@@ -146,3 +146,35 @@
     hero.addEventListener("pointerleave", () => { tx = 0; ty = 0; tr = 0; go(); });
   }
 })();
+
+// ---------- Mobile social menu ----------
+// Below 600px the four social icons collapse into a chip that opens a panel above the bar.
+(() => {
+  const wrap = document.querySelector(".social-wrap");
+  const toggle = wrap && wrap.querySelector(".social-toggle");
+  const list = document.getElementById("social-list");
+  if (!wrap || !toggle || !list) return;
+
+  const isOpen = () => wrap.classList.contains("is-open");
+  const setOpen = (open) => {
+    wrap.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+  };
+
+  toggle.addEventListener("click", () => setOpen(!isOpen()));
+  document.addEventListener("click", (e) => {
+    if (isOpen() && !wrap.contains(e.target)) setOpen(false);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && isOpen()) {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+  list.addEventListener("click", (e) => {
+    if (e.target.closest("a")) setOpen(false);
+  });
+  matchMedia("(max-width: 599px)").addEventListener("change", (e) => {
+    if (!e.matches) setOpen(false);
+  });
+})();

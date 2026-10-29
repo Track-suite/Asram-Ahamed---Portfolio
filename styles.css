@@ -430,8 +430,6 @@ a { color: inherit; text-decoration: none; }
   .exp__role { color: var(--deep-mocha-50); }
   .cards { grid-template-columns: 1fr; }
   .card__img { height: 240px; }
-  .menu { gap: 16px; }
-  .socials, .menu__divider { display: none; }
   .pill { font-size: 12px; line-height: 18px; padding: 3px 14px; }
   .cursor { width: 18px; height: 18px; }
   .works__title { margin-top: 56px; }
@@ -564,4 +562,80 @@ a { color: inherit; text-decoration: none; }
 .socials a:hover img,
 .socials a:focus-visible img {
   filter: brightness(0) saturate(100%) invert(51%) sepia(48%) saturate(505%) hue-rotate(174deg) brightness(123%) contrast(106%);
+}
+
+/* =========================================================
+   SOCIAL MENU WRAPPER (desktop: invisible, links show inline)
+   ========================================================= */
+.social-wrap { display: contents; }
+.social-toggle { display: none; }
+
+/* =========================================================
+   MOBILE FLOATING TAB  (Figma "Mobile resposnsive tab", 393px)
+   Closed: icons | [in v] [Get in touch]
+   Open:   tapping the chip pops the four social icons above it
+   ========================================================= */
+@media (max-width: 599px) {
+  .menu { bottom: clamp(16px, 5vh, 42px); gap: 0; }
+  .menu__nav { gap: 16px; }
+  .ib img { width: 24px; height: 24px; }
+  .menu__divider { display: block; margin: -8px 7px -8px 8px; }
+  .menu__right { gap: 16px; }
+  .btn { padding: 7px 13px; } /* Figma strokes sit inside the 36px button */
+  .btn img { display: none; }
+
+  .social-wrap { display: block; position: relative; }
+  .social-toggle {
+    display: flex;
+    align-items: center;
+    padding: 2px 4px;
+    background: var(--deep-mocha-200);
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.3s var(--spring);
+  }
+  .social-toggle img { display: block; width: 18px; height: 18px; }
+  .social-toggle__icon { margin: 4px; filter: invert(1); }
+  .social-toggle:active { transform: scale(0.92); }
+
+  /* the same four links, stacked above the chip */
+  .socials {
+    position: absolute;
+    left: calc(50% + 2px);
+    bottom: calc(100% + 20px);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate(-50%, 10px) scale(0.85);
+    transform-origin: 50% 100%;
+    transition: transform 0.35s var(--spring), opacity 0.2s ease, visibility 0s linear 0.35s;
+  }
+  .social-wrap.is-open .socials {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(-50%, 0) scale(1);
+    transition: transform 0.35s var(--spring), opacity 0.2s ease, visibility 0s;
+  }
+  .social-wrap.is-open .socials a { animation: social-pop 0.45s var(--spring) backwards; }
+  .social-wrap.is-open .socials a:nth-child(4) { animation-delay: 0ms; }
+  .social-wrap.is-open .socials a:nth-child(3) { animation-delay: 45ms; }
+  .social-wrap.is-open .socials a:nth-child(2) { animation-delay: 90ms; }
+  .social-wrap.is-open .socials a:nth-child(1) { animation-delay: 135ms; }
+}
+@keyframes social-pop { from { opacity: 0; transform: translateY(14px) scale(0.6); } }
+
+/* very small phones: tighten gaps so the bar fits */
+@media (max-width: 359px) {
+  .menu__nav, .menu__right { gap: 8px; }
+  .btn { padding: 7px 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .socials, .social-toggle { transition: none !important; }
+  .social-wrap.is-open .socials a { animation: none; }
 }
