@@ -383,7 +383,7 @@ a { color: inherit; text-decoration: none; }
 
 /* Slider (Into the Portal) */
 .slider { position: relative; height: 595px; overflow: hidden; border-radius: 8px; background: #474747; touch-action: pan-y; }
-.slider__track { display: flex; height: 100%; transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1); }
+.slider__track { display: flex; height: 100%; } /* images swap instantly, in place */
 .slide { flex: none; width: 100%; height: 100%; margin: 0; }
 .slide img { display: block; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
 .slider__btn {
