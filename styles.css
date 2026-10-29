@@ -385,7 +385,7 @@ a { color: inherit; text-decoration: none; }
 .slider { position: relative; height: 595px; overflow: hidden; border-radius: 8px; background: #474747; touch-action: pan-y; }
 .slider__track { position: relative; height: 100%; }
 /* Both renders share one framing, so a soft cross-fade reads as the scene re-lighting itself in place */
-.slide { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity 0.9s ease-in-out; }
+.slide { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity 0.45s ease-in-out; }
 .slide.is-active { opacity: 1; }
 .slide img { display: block; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
 @media (max-width: 1199px) {

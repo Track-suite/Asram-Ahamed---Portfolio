@@ -290,7 +290,7 @@
     }
   }
 
-  // Slider: the two renders cross-fade in place every ~3s, pauses on hover/focus/hidden tab; swipe or arrow keys also work.
+  // Slider: the two renders cross-fade in place every ~2s, pauses on hover/focus/hidden tab; swipe or arrow keys also work.
   const slider = document.getElementById("portal-slider");
   if (!slider) return;
   const track = slider.querySelector(".slider__track");
@@ -312,7 +312,7 @@
   const start = () => {
     stop();
     if (reduce || held || !inView || document.hidden) return;
-    timer = setInterval(() => go(i + 1), 2800);
+    timer = setInterval(() => go(i + 1), 2000);
   };
 
 
