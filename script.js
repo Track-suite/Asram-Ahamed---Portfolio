@@ -394,36 +394,6 @@
     }
   }
 
-  // Desktop: the clouds cover the closing line; the pointer parts them so the text can be read.
-  const clouds = [...stage.querySelectorAll(".cloud")];
-  if (clouds.length && !reduce && matchMedia("(min-width: 1200px) and (hover: hover)").matches) {
-    let raf = 0, px = 0, py = 0, inside = false;
-    const paint = () => {
-      raf = 0;
-      clouds.forEach((c) => {
-        const r = c.getBoundingClientRect();
-        const over = inside && px >= r.left && px <= r.right && py >= r.top && py <= r.bottom;
-        c.classList.toggle("is-parting", over);
-        if (over) {
-          const flip = c.classList.contains("cloud--b");
-          const x = flip ? r.right - px : px - r.left;
-          c.style.setProperty("--mx", x + "px");
-          c.style.setProperty("--my", py - r.top + "px");
-        }
-      });
-    };
-    const queue = () => { if (!raf) raf = requestAnimationFrame(paint); };
-    stage.addEventListener("pointermove", (e) => { px = e.clientX; py = e.clientY; inside = true; queue(); });
-    stage.addEventListener("pointerleave", () => { inside = false; queue(); });
-    window.addEventListener("scroll", queue, { passive: true });
-    // keyboard: when the email link is focused the clouds fade right back
-    const mail = stage.querySelector(".closing__mail a");
-    if (mail) {
-      mail.addEventListener("focus", () => stage.classList.add("is-focus"));
-      mail.addEventListener("blur", () => stage.classList.remove("is-focus"));
-    }
-  }
-
   // The thought bubble pops up when the footer is reached, then fades away; it replays on the next visit.
   if (by && bubble) {
     let t = 0;
