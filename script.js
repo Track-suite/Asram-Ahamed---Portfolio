@@ -345,3 +345,31 @@
   }
   start();
 })();
+
+// ---------- Floating bar: active page icon ----------
+// About is active near the top; My works takes over once Highlighted Works is reached (or when clicked).
+(() => {
+  const about = document.querySelector('[data-nav="about"]');
+  const works = document.querySelector('[data-nav="works"]');
+  const target = document.getElementById("highlighted");
+  if (!about || !works || !target) return;
+
+  const set = (name) => {
+    [[about, "about"], [works, "works"]].forEach(([el, key]) => {
+      const on = key === name;
+      el.classList.toggle("is-active", on);
+      if (on) el.setAttribute("aria-current", "page"); else el.removeAttribute("aria-current");
+    });
+  };
+  const update = () => {
+    const reached = target.getBoundingClientRect().top < window.innerHeight * 0.6;
+    set(reached ? "works" : "about");
+  };
+
+  let lock = 0; // while the click's smooth scroll runs, keep the clicked icon active
+  works.addEventListener("click", () => { set("works"); lock = performance.now() + 900; });
+  about.addEventListener("click", () => { set("about"); lock = performance.now() + 900; });
+  window.addEventListener("scroll", () => { if (performance.now() > lock) update(); }, { passive: true });
+  window.addEventListener("resize", update);
+  update();
+})();

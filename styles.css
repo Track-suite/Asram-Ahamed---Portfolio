@@ -772,3 +772,5 @@ a.work__media:hover, .card__link:hover { transform: translateY(-4px); box-shadow
 @media (prefers-reduced-motion: reduce) { a.work__media, .card__link { transition: none; } a.work__media:hover, .card__link:hover { transform: none; } }
 
 @media (prefers-reduced-motion: reduce) { .slide { transition: none; } }
+
+.works__title { scroll-margin-top: 96px; }
