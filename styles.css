@@ -347,7 +347,7 @@ a { color: inherit; text-decoration: none; }
 /* =========================================================
    OTHER WORKS  (Desktop - 3)
    ========================================================= */
-.other { padding: 40px 0 180px; }
+.other { padding: 40px 0 124px; }
 .other__inner { max-width: 1440px; margin: 0 auto; padding: 0 clamp(24px, 5.556vw, 80px); }
 .other__head { display: flex; align-items: center; gap: 16px; }
 .other__head h2 { font-size: 24px; line-height: 32px; font-weight: 600; color: var(--deep-mocha-500); white-space: nowrap; }
@@ -774,3 +774,147 @@ a.work__media:hover, .card__link:hover { transform: translateY(-4px); box-shadow
 @media (prefers-reduced-motion: reduce) { .slide { transition: none; } }
 
 .works__title { scroll-margin-top: 96px; }
+
+/* =========================================================
+   ABOUT + CLOSING LINE + FOOTER  (Desktop - 3, lower half)
+   Absolute 1440px stage like the hero (1u = 1px on a 1440px design); flow layout below 1200px.
+   ========================================================= */
+.story { overflow-x: clip; }
+.story__stage { position: relative; width: 100%; max-width: 1440px; margin: 0 auto; height: calc(1096 * var(--u)); }
+.story__stage > *, .closing > *, .credits > * { position: absolute; }
+.closing { display: contents; }
+.credits { display: contents; }
+
+.story__title { left: calc(80 * var(--u)); top: 0; font-size: calc(24 * var(--u)); line-height: calc(32 * var(--u)); font-weight: 600; color: var(--deep-mocha-500); white-space: nowrap; }
+.story__sub { left: calc(80 * var(--u)); top: calc(48 * var(--u)); font-size: calc(18 * var(--u)); line-height: 1.6; letter-spacing: 0.09px; color: var(--deep-mocha-300); white-space: nowrap; }
+
+.collage {
+  position: absolute;
+  left: calc(80 * var(--u)); top: calc(111 * var(--u));
+  width: calc(526 * var(--u)); height: calc(457 * var(--u));
+  overflow: hidden;
+  border-radius: calc(8 * var(--u));
+  background: #002f9e;
+  container-type: inline-size;
+}
+.collage > img { position: absolute; height: auto; user-select: none; -webkit-user-drag: none; }
+.collage__grid { left: 0; top: 0; width: 100%; }
+.collage__spark { left: 3.802%; top: 91.466%; width: 5.32%; }
+.collage__photo { left: 14.449%; top: 14.880%; width: 32.510%; }
+.collage__tape { left: 7.414%; top: 14.661%; width: 18.821%; }
+.collage__sticky { left: 50.760%; top: 6.783%; width: 25.475%; }
+.collage__skull { left: 47.053%; top: 51.204%; width: 16.540%; }
+.collage__pencil { left: 62.167%; top: 52.079%; width: 20.913%; }
+.collage__dumbbell { left: 60.076%; top: 21.007%; width: 36.882%; }
+.collage__notebook { left: 12.357%; top: 61.926%; width: 53.612%; }
+.collage__layer { filter: drop-shadow(0 6px 10px rgba(0, 0, 20, 0.28)); }
+.story__fade {
+  left: calc(558 * var(--u)); top: calc(103 * var(--u)); width: calc(125 * var(--u)); height: calc(499 * var(--u));
+  background: linear-gradient(to left, var(--snow-50) 25.949%, rgba(255, 254, 254, 0));
+  pointer-events: none;
+}
+.story__tick { left: calc(66 * var(--u)); top: calc(159 * var(--u)); width: calc(12 * var(--u)); height: auto; }
+.story__star { left: calc(652 * var(--u)); top: calc(117 * var(--u)); width: calc(19.5 * var(--u)); height: auto; }
+.story__bio { left: calc(658 * var(--u)); top: calc(110 * var(--u)); width: calc(593 * var(--u)); font-size: calc(18 * var(--u)); line-height: 1.6; letter-spacing: 0.09px; color: var(--deep-mocha-300); }
+
+.story__cursor {
+  left: calc(725.4 * var(--u)); top: calc(432.4 * var(--u));
+  width: calc(27 * var(--u)); height: calc(27 * var(--u));
+  background: var(--mv-red-300);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  transform: rotate(-39.28deg);
+  z-index: 2;
+}
+.story__pill {
+  left: calc(741 * var(--u)); top: calc(452 * var(--u));
+  padding: calc(6 * var(--u)) calc(24 * var(--u));
+  background: var(--mv-red-300); border: 1px solid var(--mv-red-400); border-radius: 33px;
+  color: var(--mv-red-50); font-size: calc(16 * var(--u)); line-height: calc(24 * var(--u)); font-weight: 500; white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+.story__cursor, .story__pill { animation: hover-float 4.5s ease-in-out infinite; }
+.story__pill { animation-delay: -0.35s; }
+.story__octopus { left: calc(1160 * var(--u)); top: calc(389 * var(--u)); width: calc(218 * var(--u)); height: auto; }
+
+.story__beyond { left: calc(80 * var(--u)); top: calc(628 * var(--u)); width: calc(903 * var(--u)); font-size: calc(16 * var(--u)); line-height: calc(24 * var(--u)); color: #000; }
+.story__beyond img { display: inline-block; vertical-align: middle; margin: -4px 0 -2px 2px; }
+
+/* closing line + clouds */
+.cloud {
+  left: calc(396 * var(--u)); top: calc(671 * var(--u)); width: calc(713 * var(--u)); height: auto;
+  z-index: 3; pointer-events: none;
+  transform: translateX(var(--tx, 0)) scaleX(var(--sx, 1));
+  transition: transform 2.8s cubic-bezier(0.22, 0.7, 0.2, 1), opacity 2.8s ease;
+}
+.cloud--b { left: calc(-346 * var(--u)); top: calc(760 * var(--u)); --sx: -1; }
+.story__stage.is-revealed .cloud--a { --tx: calc(320 * var(--u)); opacity: 0.4; }
+.story__stage.is-revealed .cloud--b { --tx: calc(-300 * var(--u)); opacity: 0.4; }
+.closing__title { left: calc(80 * var(--u)); top: calc(803 * var(--u)); font-size: calc(36 * var(--u)); line-height: calc(44 * var(--u)); font-weight: 600; color: var(--deep-mocha-500); white-space: nowrap; }
+.closing__mail { left: calc(80 * var(--u)); top: calc(892 * var(--u)); font-size: calc(16 * var(--u)); line-height: calc(24 * var(--u)); color: var(--deep-mocha-300); z-index: 4; }
+.closing__mail a { margin-left: 4px; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size 0.25s ease; }
+.closing__mail a:hover, .closing__mail a:focus-visible { background-size: 100% 1px; }
+
+/* footer */
+.credits__by { left: calc(80 * var(--u)); top: calc(1025 * var(--u)); width: calc(147 * var(--u)); font-size: calc(14 * var(--u)); line-height: calc(20 * var(--u)); font-weight: 500; color: var(--deep-mocha-300); }
+.credits__copy { left: calc(1160 * var(--u)); top: calc(1035 * var(--u)); display: flex; align-items: center; gap: 2px; font-size: calc(14 * var(--u)); line-height: calc(20 * var(--u)); font-weight: 500; color: var(--deep-mocha-300); white-space: nowrap; }
+.credits__copy img { width: 18px; height: 18px; }
+
+/* "Oh Really" thought bubble: pops in when the footer is reached, fades away after a few seconds */
+.bubble { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+.bubble > * { position: absolute; opacity: 0; transition: opacity 0.25s ease, transform 0.45s var(--spring); }
+.bubble__spark { left: calc(229 * var(--u)); top: calc(1054 * var(--u)); width: calc(18 * var(--u)); height: auto; transform: scale(0.2); transform-origin: 50% 50%; }
+.bubble__dot { background: #e29ec5; clip-path: polygon(50% 0, 100% 100%, 0 100%); transform: rotate(-130.12deg) scale(0.2); }
+.bubble__dot--m { left: calc(240.8 * var(--u)); top: calc(1032 * var(--u)); width: calc(15.7 * var(--u)); height: calc(15.7 * var(--u)); }
+.bubble__dot--s { left: calc(238 * var(--u)); top: calc(1043.6 * var(--u)); width: calc(9.5 * var(--u)); height: calc(9.5 * var(--u)); }
+.bubble__pill {
+  left: calc(253.67 * var(--u)); top: calc(1015 * var(--u));
+  padding: calc(7 * var(--u)) calc(24 * var(--u));
+  background: #e29ec5; border: 1px solid #d676ad; border-radius: 33px;
+  color: #710c46; font-size: calc(12 * var(--u)); line-height: calc(16 * var(--u)); font-weight: 500; white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: scale(0.4); transform-origin: 0 100%;
+}
+.bubble.is-shown > * { opacity: 1; }
+.bubble.is-shown .bubble__spark { transform: scale(1); transition-delay: 0s; }
+.bubble.is-shown .bubble__dot--s { transform: rotate(-130.12deg) scale(1); transition-delay: 0.12s; }
+.bubble.is-shown .bubble__dot--m { transform: rotate(-130.12deg) scale(1); transition-delay: 0.24s; }
+.bubble.is-shown .bubble__pill { transform: scale(1); transition-delay: 0.38s; }
+
+@media (max-width: 1199px) {
+  .story__stage { height: auto; padding: 0 clamp(24px, 5.556vw, 80px); display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
+  .story__stage > *, .closing > * { position: static; }
+  .story__title { font-size: 24px; line-height: 32px; white-space: normal; }
+  .story__sub { margin-top: -16px; font-size: 18px; white-space: normal; }
+  .collage { position: relative; left: auto; top: auto; width: 100%; max-width: 526px; height: auto; aspect-ratio: 526 / 457; border-radius: 8px; }
+  .story__fade, .story__tick, .story__star, .story__cursor, .story__pill { display: none; }
+  .story__bio { width: 100%; max-width: 593px; font-size: 18px; }
+  .story__octopus { align-self: flex-end; width: clamp(120px, 28vw, 218px); margin-top: -8px; }
+  .story__beyond { width: 100%; max-width: 903px; font-size: 16px; }
+  .closing { display: block; position: relative; width: 100%; margin-top: 24px; padding: 32px 0 8px; overflow: hidden; }
+  .closing > * { position: relative; left: auto; top: auto; }
+  .cloud { position: absolute; z-index: 0; opacity: 0.5; width: min(713px, 90vw); left: auto; top: auto; }
+  .closing__title, .closing__mail { z-index: 1; }
+  .cloud--a { right: -10%; top: 0; }
+  .cloud--b { left: -30%; top: 90px; }
+  .story__stage.is-revealed .cloud--a, .story__stage.is-revealed .cloud--b { --tx: 0; opacity: 0.3; }
+  .closing__title { font-size: clamp(26px, 5vw, 36px); line-height: 1.22; white-space: normal; }
+  .closing__mail { margin-top: 16px; font-size: 16px; }
+  .credits { display: flex; width: 100%; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-top: 24px; padding-bottom: 8px; position: relative; }
+  .credits__by, .credits__copy { position: static; font-size: 14px; width: auto; left: auto; top: auto; }
+  .bubble { position: absolute; inset: auto; left: 150px; top: -30px; width: 150px; height: 60px; }
+  .bubble > * { left: auto; top: auto; }
+  .bubble__spark { left: 0; bottom: 0; width: 18px; }
+  .bubble__dot--m { left: 12px; bottom: 16px; width: 16px; height: 16px; }
+  .bubble__dot--s { left: 6px; bottom: 6px; width: 10px; height: 10px; }
+  .bubble__pill { left: 28px; top: 0; padding: 6px 20px; font-size: 12px; line-height: 16px; }
+}
+@media (max-width: 640px) {
+  .story__stage { gap: 20px; }
+  .closing__title { font-size: 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .story__cursor, .story__pill { animation: none; }
+  .cloud { transition: none; }
+  .bubble > * { transition: opacity 0.2s ease; }
+}

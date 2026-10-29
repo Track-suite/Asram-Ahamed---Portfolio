@@ -373,3 +373,39 @@
   window.addEventListener("resize", update);
   update();
 })();
+
+// ---------- About / closing: clouds part, "Oh Really" bubble ----------
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const stage = document.querySelector(".story__stage");
+  const title = document.getElementById("closing-title");
+  const by = document.getElementById("credits-by");
+  const bubble = document.getElementById("bubble");
+  if (!stage || !("IntersectionObserver" in window)) { if (stage) stage.classList.add("is-revealed"); return; }
+
+  // The clouds drift apart the first time the closing line comes into view.
+  if (title) {
+    if (reduce) stage.classList.add("is-revealed");
+    else {
+      const io = new IntersectionObserver((es) => {
+        if (es[0].isIntersecting) { setTimeout(() => stage.classList.add("is-revealed"), 350); io.disconnect(); }
+      }, { threshold: 0.6 });
+      io.observe(title);
+    }
+  }
+
+  // The thought bubble pops up when the footer is reached, then fades away; it replays on the next visit.
+  if (by && bubble) {
+    let t = 0;
+    new IntersectionObserver((es) => {
+      if (es[0].isIntersecting) {
+        clearTimeout(t);
+        bubble.classList.add("is-shown");
+        t = setTimeout(() => bubble.classList.remove("is-shown"), 4500);
+      } else {
+        clearTimeout(t);
+        bubble.classList.remove("is-shown");
+      }
+    }, { threshold: 1 }).observe(by);
+  }
+})();
