@@ -576,7 +576,7 @@ a { color: inherit; text-decoration: none; }
    Open:   tapping the chip pops the four social icons above it
    ========================================================= */
 @media (max-width: 599px) {
-  .menu { bottom: clamp(16px, 5vh, 42px); gap: 0; max-width: calc(100vw - 16px); }
+  .menu { bottom: clamp(16px, 5vh, 42px); gap: 0; max-width: calc(100vw - 12px); }
   .menu__nav { gap: 16px; }
   .ib img { width: 24px; height: 24px; }
   .menu__divider { display: block; margin: -8px 7px -8px 8px; }
@@ -596,22 +596,24 @@ a { color: inherit; text-decoration: none; }
     transition: transform 0.3s var(--spring);
   }
   .social-toggle img { display: block; width: 18px; height: 18px; }
-  .social-toggle .social-toggle__icon { width: 20px; height: 20px; margin: 4px; filter: invert(1); }
+  .social-toggle .social-toggle__icon { width: 24px; height: 24px; margin: 4px; filter: invert(1); }
   .social-toggle:active { transform: scale(0.92); }
 
   /* the same four links, stacked above the chip */
   .socials {
+    /* opens as a tall panel that grows up out of the chip and covers it */
     position: absolute;
-    left: 50%;
-    bottom: calc(100% + 27px); /* 11px chip-to-bar edge + 16px gap */
+    left: 0;
+    bottom: 0;
+    width: 100%;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
     gap: 16px;
-    padding: 8px;
+    padding: 16px 8px;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translate(-50%, 10px) scale(0.85);
+    transform: translateY(10px) scale(0.85);
     transform-origin: 50% 100%;
     transition: transform 0.35s var(--spring), opacity 0.2s ease, visibility 0s linear 0.35s;
   }
@@ -619,7 +621,7 @@ a { color: inherit; text-decoration: none; }
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    transform: translate(-50%, 0) scale(1);
+    transform: translateY(0) scale(1);
     transition: transform 0.35s var(--spring), opacity 0.2s ease, visibility 0s;
   }
   .social-wrap.is-open .socials a { animation: social-pop 0.45s var(--spring) backwards; }
@@ -632,9 +634,9 @@ a { color: inherit; text-decoration: none; }
 
 /* very small phones: tighten gaps so the bar fits */
 @media (max-width: 359px) {
-  .menu { max-width: calc(100vw - 12px); }
   .menu__nav, .menu__right { gap: 8px; }
-  .btn { padding: 7px 9px; }
+  .menu__divider { margin: -8px 4px; }
+  .btn { padding: 7px 8px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
