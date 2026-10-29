@@ -411,7 +411,7 @@
 })();
 
 
-// ---------- Loading screen: counter to 100, posters trail the cursor ----------
+// ---------- Loading screen: counter to 99, posters trail the cursor ----------
 (() => {
   const root = document.documentElement;
   const loader = document.getElementById("loader");
@@ -448,7 +448,7 @@
   };
   window.addEventListener("pointermove", onMove, { passive: true });
 
-  // Counter: eases up to 99 while the page loads, then finishes at 100 and the screen lifts away.
+  // Counter: eases up to 99 while the page loads, then the screen lifts away at 99.
   const loaded = new Promise((res) => {
     const ready = () => (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(res, res);
     document.readyState === "complete" ? ready() : window.addEventListener("load", ready, { once: true });
@@ -466,7 +466,7 @@
       const b = t.firstChild, d = s[i];
       if (b.textContent !== d) {
         b.textContent = d;
-        if (!reduce && i < s.length - 1 || v === 100) { t.classList.remove("is-tick"); void t.offsetWidth; t.classList.add("is-tick"); }
+        if (!reduce && i < s.length - 1 || v === 99) { t.classList.remove("is-tick"); void t.offsetWidth; t.classList.add("is-tick"); }
       }
     });
     loader.setAttribute("aria-valuenow", v);
@@ -485,10 +485,11 @@
     const eased = 1 - Math.pow(1 - t, 2.2);
     let v = Math.floor(eased * 100);
     if (!isLoaded) v = Math.min(v, 94);
-    if (isLoaded && t >= 1) v = 100;
-    if (v >= 100) v = 100;
+    v = Math.min(v, 99);
+    if (isLoaded && t >= 1) v = 99;
+    if (v >= 99) v = 99;
     if (v !== shown) { shown = v; render(v); }
-    if (v < 100) requestAnimationFrame(frame); else finish();
+    if (!(isLoaded && t >= 1)) requestAnimationFrame(frame); else finish();
   };
   render(0);
   requestAnimationFrame(frame);
