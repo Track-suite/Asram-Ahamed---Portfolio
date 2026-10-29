@@ -409,3 +409,87 @@
     }, { threshold: 1 }).observe(by);
   }
 })();
+
+
+// ---------- Loading screen: counter to 100, posters trail the cursor ----------
+(() => {
+  const root = document.documentElement;
+  const loader = document.getElementById("loader");
+  const trail = document.getElementById("loader-trail");
+  const count = document.getElementById("loader-count");
+  if (!loader || !trail || !count) { root.classList.remove("is-loading"); return; }
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Posters stay hidden until the pointer moves, then follow it as a trail.
+  const sizes = [99, 88, 99, 220, 95, 89, 95, 99, 88, 75, 89]; // widths from the Figma loading frame
+  let next = 0, lastX = -999, lastY = -999, alive = [];
+  const spawn = (x, y) => {
+    const n = (next % 11) + 1; next++;
+    const img = new Image();
+    img.className = "loader__po";
+    img.alt = ""; img.draggable = false;
+    img.src = "assets/posters/poster-" + String(n).padStart(2, "0") + ".png";
+    img.style.width = sizes[n - 1] * (innerWidth < 700 ? 0.8 : 1.15) + "px";
+    img.style.left = x + "px"; img.style.top = y + "px";
+    img.style.setProperty("--rot", (Math.random() * 10 - 5).toFixed(1) + "deg");
+    trail.appendChild(img);
+    requestAnimationFrame(() => requestAnimationFrame(() => img.classList.add("is-in")));
+    alive.push(img);
+    const kill = () => { img.classList.add("is-out"); setTimeout(() => img.remove(), 520); alive = alive.filter((i) => i !== img); };
+    setTimeout(kill, 950);
+    if (alive.length > 7) { const old = alive.shift(); old.classList.add("is-out"); setTimeout(() => old.remove(), 520); }
+  };
+  const onMove = (e) => {
+    if (loader.classList.contains("is-done")) return;
+    const dx = e.clientX - lastX, dy = e.clientY - lastY;
+    if (dx * dx + dy * dy < 70 * 70) return;
+    lastX = e.clientX; lastY = e.clientY;
+    spawn(lastX, lastY);
+  };
+  window.addEventListener("pointermove", onMove, { passive: true });
+
+  // Counter: eases up to 99 while the page loads, then finishes at 100 and the screen lifts away.
+  const loaded = new Promise((res) => {
+    const ready = () => (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(res, res);
+    document.readyState === "complete" ? ready() : window.addEventListener("load", ready, { once: true });
+  });
+  let isLoaded = false; loaded.then(() => { isLoaded = true; });
+  const MIN = reduce ? 500 : 2600;
+  const t0 = performance.now();
+  let shown = -1, finished = false;
+  const tiles = () => [...count.children];
+  const render = (v) => {
+    const s = String(v).padStart(2, "0");
+    let ts = tiles();
+    while (ts.length < s.length) { const t = document.createElement("span"); t.className = "loader__tile"; t.innerHTML = "<b></b>"; count.appendChild(t); ts = tiles(); }
+    ts.forEach((t, i) => {
+      const b = t.firstChild, d = s[i];
+      if (b.textContent !== d) {
+        b.textContent = d;
+        if (!reduce && i < s.length - 1 || v === 100) { t.classList.remove("is-tick"); void t.offsetWidth; t.classList.add("is-tick"); }
+      }
+    });
+    loader.setAttribute("aria-valuenow", v);
+  };
+  const finish = () => {
+    if (finished) return; finished = true;
+    window.removeEventListener("pointermove", onMove);
+    setTimeout(() => {
+      loader.classList.add("is-done");
+      root.classList.remove("is-loading");
+      setTimeout(() => loader.remove(), 1100);
+    }, 450);
+  };
+  const frame = (now) => {
+    const t = Math.min(1, (now - t0) / MIN);
+    const eased = 1 - Math.pow(1 - t, 2.2);
+    let v = Math.floor(eased * 100);
+    if (!isLoaded) v = Math.min(v, 94);
+    if (isLoaded && t >= 1) v = 100;
+    if (v >= 100) v = 100;
+    if (v !== shown) { shown = v; render(v); }
+    if (v < 100) requestAnimationFrame(frame); else finish();
+  };
+  render(0);
+  requestAnimationFrame(frame);
+})();

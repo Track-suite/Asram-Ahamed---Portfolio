@@ -7,10 +7,19 @@
   <meta name="description" content="I turn ideas into simple, intuitive, and engaging digital experiences that people love to use.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=New+Amsterdam&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add("is-loading");setTimeout(function(){document.documentElement.classList.remove("is-loading")},15000);</script>
 </head>
 <body>
+
+  <!-- ============ Loading screen ============ -->
+  <div class="loader" id="loader" role="status" aria-live="polite" aria-label="Loading">
+    <div class="loader__trail" id="loader-trail" aria-hidden="true"></div>
+    <div class="loader__stage" aria-hidden="true">
+      <div class="loader__count" id="loader-count"><span class="loader__tile"><b>0</b></span><span class="loader__tile"><b>0</b></span></div>
+    </div>
+  </div>
 
   <!-- ============ Desktop 1 — Hero ============ -->
   <section class="hero" id="home">

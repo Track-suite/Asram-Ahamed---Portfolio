@@ -917,3 +917,49 @@ a.work__media:hover, .card__link:hover { transform: translateY(-4px); box-shadow
   .cloud { transition: none; }
   .bubble > * { transition: opacity 0.2s ease; }
 }
+
+/* ---------- Loading screen ---------- */
+html.is-loading, html.is-loading body { overflow: hidden; }
+.loader {
+  position: fixed; inset: 0; z-index: 1000; background: #fffefe; overflow: hidden;
+  display: flex; align-items: flex-end; justify-content: center;
+  transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+  animation: loaderFailsafe 0.4s ease 15s forwards;
+}
+.loader.is-done { transform: translateY(-101%); pointer-events: none; }
+@keyframes loaderFailsafe { to { opacity: 0; visibility: hidden; } }
+.loader__stage { position: relative; width: 100%; max-width: 1440px; height: min(100vh, calc(1024 * var(--u))); }
+.loader__count { position: absolute; right: calc(180 * var(--u)); top: calc(698 * var(--u)); display: flex; }
+.loader__tile {
+  position: relative; display: block; width: calc(127 * var(--u)); height: calc(146 * var(--u)); overflow: hidden;
+  background: #9a9797; color: #fffefe;
+}
+.loader__tile:first-child { background: #fe5d26; }
+.loader__tile b {
+  position: absolute; left: calc(19 * var(--u)); top: calc(-43 * var(--u)); width: calc(89 * var(--u));
+  font: 400 calc(220 * var(--u)) / calc(233 * var(--u)) "New Amsterdam", Impact, "Arial Narrow Bold", sans-serif;
+  text-align: center; font-weight: 400;
+}
+.loader__tile.is-tick b { animation: loaderTick 0.28s cubic-bezier(0.22, 0.7, 0.2, 1); }
+@keyframes loaderTick { from { transform: translateY(24%); opacity: 0.2; } to { transform: none; opacity: 1; } }
+
+.loader__trail { position: absolute; inset: 0; pointer-events: none; }
+.loader__po {
+  position: absolute; height: auto; transform: translate(-50%, -50%) scale(0.55) rotate(var(--rot, 0deg));
+  opacity: 0; transition: transform 0.45s cubic-bezier(0.22, 0.9, 0.3, 1.2), opacity 0.25s ease;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.14); will-change: transform, opacity;
+}
+.loader__po.is-in { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(var(--rot, 0deg)); }
+.loader__po.is-out { opacity: 0; transform: translate(-50%, -50%) scale(0.82) rotate(var(--rot, 0deg)); transition: transform 0.5s ease, opacity 0.45s ease; }
+
+@media (max-width: 640px) {
+  .loader__stage { height: 100%; }
+  .loader__count { right: 20px; top: auto; bottom: 28px; }
+  .loader__tile { width: 70px; height: 80px; }
+  .loader__tile b { left: 10px; top: -24px; width: 50px; font-size: 120px; line-height: 128px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loader { transition: opacity 0.3s ease; }
+  .loader.is-done { transform: none; opacity: 0; }
+  .loader__tile.is-tick b { animation: none; }
+}
