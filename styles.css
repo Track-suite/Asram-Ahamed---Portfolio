@@ -798,16 +798,7 @@ a.work__media:hover, .card__link:hover { transform: translateY(-4px); box-shadow
   container-type: inline-size;
 }
 .collage > img { position: absolute; height: auto; user-select: none; -webkit-user-drag: none; }
-.collage__grid { left: 0; top: 0; width: 100%; }
-.collage__spark { left: 3.802%; top: 91.466%; width: 5.32%; }
-.collage__photo { left: 14.449%; top: 14.880%; width: 32.510%; }
-.collage__tape { left: 7.414%; top: 14.661%; width: 18.821%; }
-.collage__sticky { left: 50.760%; top: 6.783%; width: 25.475%; }
-.collage__skull { left: 47.053%; top: 51.204%; width: 16.540%; }
-.collage__pencil { left: 62.167%; top: 52.079%; width: 20.913%; }
-.collage__dumbbell { left: 60.076%; top: 21.007%; width: 36.882%; }
-.collage__notebook { left: 12.357%; top: 61.926%; width: 53.612%; }
-.collage__layer { filter: drop-shadow(0 6px 10px rgba(0, 0, 20, 0.28)); }
+.collage > .collage__img { left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; }
 .story__fade {
   left: calc(558 * var(--u)); top: calc(103 * var(--u)); width: calc(125 * var(--u)); height: calc(499 * var(--u));
   background: linear-gradient(to left, var(--snow-50) 25.949%, rgba(255, 254, 254, 0));
