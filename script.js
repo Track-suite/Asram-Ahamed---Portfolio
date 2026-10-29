@@ -121,6 +121,27 @@
     p.addEventListener("dblclick", () => setPos(p, 0, 0));
   });
 
+  // Reset button: send every poster back to its spot (staggered), restore the original stacking
+  const resetBtn = document.querySelector(".reset-btn");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      posters.forEach((p, i) => {
+        p.style.transitionDelay = i * 30 + "ms";
+        setPos(p, 0, 0);
+      });
+      resetBtn.classList.remove("is-spinning");
+      void resetBtn.offsetWidth; // restart the spin
+      resetBtn.classList.add("is-spinning");
+      setTimeout(() => {
+        posters.forEach((p) => {
+          p.style.transitionDelay = "";
+          p.style.zIndex = "";
+        });
+        resetBtn.classList.remove("is-spinning");
+      }, 900);
+    });
+  }
+
   if (!fine) return;
 
   // Headphones react to the mouse (parallax + tilt)
@@ -177,4 +198,73 @@
   matchMedia("(max-width: 599px)").addEventListener("change", (e) => {
     if (!e.matches) setOpen(false);
   });
+})();
+
+// ---------- Info tags ----------
+// One shared tag, shown on hover (mouse/pen) or keyboard focus for any element with data-tip.
+// Tags for the floating bar sit above it; others (data-tip-pos="bottom") sit below their element.
+(() => {
+  const tip = document.createElement("div");
+  tip.className = "tip";
+  tip.setAttribute("aria-hidden", "true"); // the same words are already each element's aria-label
+  document.body.appendChild(tip);
+
+  const GAP = 8;
+  const phone = matchMedia("(max-width: 599px)");
+  let timer = 0;
+  let visible = false;
+  let lastHide = 0;
+
+  const place = (el) => {
+    const r = el.getBoundingClientRect();
+    const bar = el.closest(".menu");
+    const below = (el.dataset.tipPos || (bar ? "top" : "bottom")) === "bottom";
+    const w = tip.offsetWidth;
+    const h = tip.offsetHeight;
+    const left = Math.max(8, Math.min(r.left + r.width / 2 - w / 2, document.documentElement.clientWidth - w - 8));
+    const top = below ? r.bottom + GAP : (bar ? bar.getBoundingClientRect().top : r.top) - GAP - h;
+    tip.style.left = Math.round(left) + "px";
+    tip.style.top = Math.round(top) + "px";
+    tip.style.setProperty("--tip-shift", below ? "-4px" : "4px");
+    tip.style.setProperty("--tip-origin", below ? "50% 0" : "50% 100%");
+  };
+
+  const show = (el) => {
+    if (el.closest(".socials") && phone.matches) return; // icons in the phone social panel
+    tip.textContent = el.dataset.tip;
+    place(el);
+    tip.classList.add("is-visible");
+    visible = true;
+  };
+
+  const hide = () => {
+    clearTimeout(timer);
+    if (visible) lastHide = performance.now();
+    visible = false;
+    tip.classList.remove("is-visible");
+  };
+
+  const target = (e) => (e.target.closest ? e.target.closest("[data-tip]") : null);
+
+  document.addEventListener("pointerover", (e) => {
+    if (e.pointerType === "touch") return;
+    const el = target(e);
+    if (!el) return;
+    clearTimeout(timer);
+    // quick when sweeping from one icon to the next, a short pause otherwise
+    timer = setTimeout(() => show(el), performance.now() - lastHide < 300 ? 0 : 120);
+  });
+  document.addEventListener("pointerout", (e) => {
+    const el = target(e);
+    if (el && !(e.relatedTarget && el.contains(e.relatedTarget))) hide();
+  });
+  document.addEventListener("focusin", (e) => {
+    const el = target(e);
+    if (el && el.matches(":focus-visible")) show(el);
+  });
+  document.addEventListener("focusout", hide);
+  document.addEventListener("pointerdown", hide);
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") hide(); });
+  window.addEventListener("scroll", hide, { passive: true });
+  window.addEventListener("resize", hide);
 })();

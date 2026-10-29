@@ -419,6 +419,7 @@ a { color: inherit; text-decoration: none; }
   .exp__panel { width: 100%; }
   .wall { grid-area: wall; width: 100%; max-width: 700px; justify-self: center; position: relative; }
   .wall__label { position: static; margin-top: 12px; }
+  .reset-btn { position: static; margin-top: 12px; }
   .songs { grid-area: songs; justify-self: center; position: relative; }
   .scroll-hint { display: none; }
   .works { min-height: 0; }
@@ -642,4 +643,60 @@ a { color: inherit; text-decoration: none; }
 @media (prefers-reduced-motion: reduce) {
   .socials, .social-toggle { transition: none !important; }
   .social-wrap.is-open .socials a { animation: none; }
+}
+
+/* =========================================================
+   RESET BUTTON (Figma "Reset") + INFO TAG (Figma "Info tag")
+   ========================================================= */
+.reset-btn {
+  position: absolute;
+  left: calc(2 * var(--u));
+  top: calc(439 * var(--u));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(42 * var(--u));
+  height: calc(42 * var(--u));
+  padding: calc(8 * var(--u));
+  background: var(--snow-100);
+  border: 1px solid #ada8a7; /* Deep Mocha D75 */
+  border-radius: calc(8 * var(--u));
+  cursor: pointer;
+  transition: transform 0.3s var(--spring), border-color 0.2s ease;
+}
+.reset-btn img { display: block; width: 100%; height: 100%; transition: transform 0.5s var(--spring); }
+.reset-btn:hover { border-color: var(--deep-mocha-100); transform: translateY(-2px); }
+.reset-btn:hover img { transform: rotate(-45deg); }
+.reset-btn:active { transform: scale(0.92); }
+.reset-btn.is-spinning img { animation: reset-spin 0.7s var(--spring); }
+@keyframes reset-spin { to { transform: rotate(360deg); } }
+
+.tip {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 40;
+  padding: 2px 8px;
+  background: var(--deep-mocha-400); /* #261f1c */
+  color: var(--deep-mocha-50);       /* #ebeaea */
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(var(--tip-shift, 4px)) scale(0.9);
+  transform-origin: var(--tip-origin, 50% 100%);
+  transition: opacity 0.15s ease, transform 0.28s var(--spring);
+}
+.tip.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reset-btn { display: none; } /* posters can't be dragged with reduced motion, so nothing to reset */
+  .tip { transition: opacity 0.1s ease; transform: none; }
+}
+
+@media (max-width: 1199px) {
+  .reset-btn { position: static; margin-top: 12px; width: 42px; height: 42px; padding: 8px; border-radius: 8px; }
 }
