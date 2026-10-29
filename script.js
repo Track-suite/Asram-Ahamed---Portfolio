@@ -290,12 +290,11 @@
     }
   }
 
-  // Slider: auto-advances, pauses on hover/focus/hidden tab, arrows + dots + swipe.
+  // Slider: images swap instantly every ~2s, pauses on hover/focus/hidden tab; swipe or arrow keys also work.
   const slider = document.getElementById("portal-slider");
   if (!slider) return;
   const track = slider.querySelector(".slider__track");
   const slides = [...slider.querySelectorAll(".slide")];
-  const dots = [...slider.querySelectorAll(".slider__dots button")];
   const n = slides.length;
   let i = 0;
   let timer = 0;
@@ -306,21 +305,14 @@
     i = (k + n) % n;
     track.style.transform = "translateX(" + -i * 100 + "%)";
     slides.forEach((s, idx) => s.setAttribute("aria-hidden", String(idx !== i)));
-    dots.forEach((d, idx) => {
-      d.classList.toggle("is-active", idx === i);
-      if (idx === i) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current");
-    });
   };
   const stop = () => { clearInterval(timer); timer = 0; };
   const start = () => {
     stop();
     if (reduce || held || !inView || document.hidden) return;
-    timer = setInterval(() => go(i + 1), 4500);
+    timer = setInterval(() => go(i + 1), 2200);
   };
 
-  slider.querySelector(".slider__btn--prev").addEventListener("click", () => { go(i - 1); start(); });
-  slider.querySelector(".slider__btn--next").addEventListener("click", () => { go(i + 1); start(); });
-  dots.forEach((d, idx) => d.addEventListener("click", () => { go(idx); start(); }));
 
   slider.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") { held = true; stop(); } });
   slider.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") { held = false; start(); } });

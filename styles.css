@@ -386,31 +386,6 @@ a { color: inherit; text-decoration: none; }
 .slider__track { display: flex; height: 100%; } /* images swap instantly, in place */
 .slide { flex: none; width: 100%; height: 100%; margin: 0; }
 .slide img { display: block; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
-.slider__btn {
-  position: absolute;
-  top: 50%;
-  display: grid;
-  place-items: center;
-  width: 40px; height: 40px;
-  margin-top: -20px;
-  border: 0;
-  border-radius: 50%;
-  background: rgba(38, 31, 28, 0.62);
-  color: var(--snow-50);
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s ease, background 0.2s ease, transform 0.3s var(--spring);
-}
-.slider__btn--prev { left: 16px; }
-.slider__btn--next { right: 16px; }
-.slider:hover .slider__btn, .slider:focus-within .slider__btn { opacity: 1; }
-.slider__btn:hover { background: rgba(38, 31, 28, 0.85); transform: scale(1.08); }
-.slider__btn:active { transform: scale(0.92); }
-.slider__dots { position: absolute; left: 50%; bottom: 16px; display: flex; gap: 8px; transform: translateX(-50%); padding: 6px 8px; border-radius: 12px; background: rgba(38, 31, 28, 0.45); }
-.slider__dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 4px; background: rgba(255, 254, 254, 0.55); cursor: pointer; transition: width 0.3s var(--spring), background 0.2s ease; }
-.slider__dots button.is-active { width: 22px; background: var(--snow-50); }
-@media (hover: none) { .slider__btn { opacity: 1; } }
-
 @media (max-width: 1199px) {
   .works { min-height: 0; }
   .other__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -424,7 +399,6 @@ a { color: inherit; text-decoration: none; }
   .work--fifa .work__media { height: auto; aspect-ratio: 411 / 598; }
   .work--fifa { max-width: 411px; }
   .work__media--inset > img { top: 7.7%; }
-  .slider__btn { width: 34px; height: 34px; margin-top: -17px; }
 }
 
 /* =========================================================
@@ -783,7 +757,6 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .slider__track, .slider__btn, .slider__dots button { transition: none; }
 }
 
 /* Project links */
