@@ -67,13 +67,15 @@ a { color: inherit; text-decoration: none; }
 
 .tagline {
   left: calc(80 * var(--u));
-  top: calc(276 * var(--u));
-  width: calc(265 * var(--u));
+  top: calc(244 * var(--u));
+  width: calc(268 * var(--u));
   font-size: calc(16 * var(--u));
   line-height: calc(24 * var(--u));
   font-weight: 500;
   color: var(--deep-mocha-500);
 }
+.tagline p { margin: 0; }
+.tagline__more { width: calc(284 * var(--u)); margin-top: calc(8 * var(--u)) !important; font-size: calc(13 * var(--u)); line-height: calc(19 * var(--u)); font-weight: 400; color: var(--deep-mocha-300); }
 .headphones {
   left: calc(365 * var(--u));
   top: calc(165 * var(--u));
