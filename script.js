@@ -428,7 +428,7 @@
     const img = new Image();
     img.className = "loader__po";
     img.alt = ""; img.draggable = false;
-    img.src = "assets/posters/poster-" + String(n).padStart(2, "0") + ".png";
+    img.src = "assets/posters/poster-" + String(n).padStart(2, "0") + ".webp";
     img.style.width = sizes[n - 1] * (innerWidth < 700 ? 0.8 : 1.15) + "px";
     img.style.left = x + "px"; img.style.top = y + "px";
     img.style.setProperty("--rot", (Math.random() * 10 - 5).toFixed(1) + "deg");
