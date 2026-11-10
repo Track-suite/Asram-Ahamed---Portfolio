@@ -440,7 +440,7 @@ a { color: inherit; text-decoration: none; }
   gap: 8px;
   padding: 8px 14px;
   background: #cb4a1e; /* tiger-flame 300 darkened just enough for 4.5:1 with white text */
-  border: 1px solid var(--tiger-flame-400);
+  border: 1px solid #ffa07a; /* light orange */
   border-radius: 8px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   color: var(--snow-50);
